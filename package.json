@@ -1,6 +1,6 @@
 {
   "name": "@roamzy/n8n-nodes-roamzy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "n8n community node for Roamzy — one global eSIM for 193 countries, billed per megabyte, paid in USDT/USDC. Price a trip, create an order, track eSIMs; works as an AI Agent tool.",
   "license": "MIT",
   "homepage": "https://roamzy.io/ai-agents",
