@@ -1,0 +1,14 @@
+{
+	"node": "n8n-nodes-roamzy.roamzy",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Utility"],
+	"resources": {
+		"credentialDocumentation": [
+			{ "url": "https://github.com/roamzy-io/n8n-nodes-roamzy?tab=readme-ov-file#credentials" }
+		],
+		"primaryDocumentation": [
+			{ "url": "https://github.com/roamzy-io/n8n-nodes-roamzy?tab=readme-ov-file" }
+		]
+	}
+}

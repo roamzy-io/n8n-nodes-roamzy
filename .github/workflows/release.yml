@@ -1,0 +1,59 @@
+# Publishes @roamzy/n8n-nodes-roamzy to npm on a `v*` tag push, with npm
+# provenance over GitHub OIDC — the publishing method n8n requires for
+# community nodes since 2026-05-01, and the same one @roamzy/mcp-server uses.
+#
+# One-time setup on npmjs.com (package settings → Trusted Publishers):
+#   owner roamzy-io · repository n8n-nodes-roamzy · workflow release.yml
+# No NPM_TOKEN secret anywhere.
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: npm that can publish over OIDC (11.5.1+), pinned to the major Node 20 supports
+        run: npm install -g npm@^11 && npm --version
+
+      - name: Install (skip native builds — isolated-vm is only for `n8n-node dev`)
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Tag must match package.json
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG=$(node -p "require('./package.json').version")
+          [ "$TAG" = "$PKG" ] || { echo "tag $TAG != package.json $PKG"; exit 1; }
+
+      - name: Lint (n8n community-node rules)
+        run: npx n8n-node lint
+
+      - name: Build
+        run: npx n8n-node build
+
+      - name: Package contents
+        run: npm pack --dry-run 2>&1 | tail -30
+
+      - name: Publish with provenance
+        run: npm publish --access public --provenance --ignore-scripts
+
+      - name: GitHub release
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}

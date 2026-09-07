@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Roamzy">
+  <title>Roamzy</title>
+  <!-- Brand mark: solid disc with concentric ring on warm paper.
+       The ◉ glyph is the Roamzy short mark used in the inline favicon
+       at MVP; this SVG renders it sharply at any size and matches the
+       site palette (paper-warm + ink + accent). -->
+  <rect width="64" height="64" rx="12" fill="#f0ede4"/>
+  <circle cx="32" cy="32" r="20" fill="#1a1a1a"/>
+  <circle cx="32" cy="32" r="6" fill="#c84b1f"/>
+</svg>
